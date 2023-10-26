@@ -1,0 +1,4 @@
+cust_id,Reasons,Failed_Trans,Delay,Concern
+c121,Reason1,11%,50%,40%
+c122,Reason2,25%,30%,30%
+c123,Reason3,64%,20%,30%

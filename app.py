@@ -5,6 +5,9 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import openai
 
+# Default Path
+DEFAULT_PATH = "D:/LD/"
+
 # Your Streamlit App
 def app():
     st.title('GEN AI App using OpenAI GPT-3.5')
@@ -37,103 +40,138 @@ st.sidebar.image('logo.png', width = 5, caption='', use_column_width=True)
 
 st.sidebar.title('EDA Charts')
 
-# Sidebar Text and File Upload
-st.sidebar.subheader('Upload Contact Cetre Data')
-uploaded_file = st.sidebar.file_uploader("***************", type="csv")
+# # Sidebar Text and File Upload
+# st.sidebar.subheader('Upload Contact Centre Data')
+# uploaded_file = st.sidebar.file_uploader("***************", type="csv")
 
-# If file is uploaded, read and display bar charts
-if uploaded_file is not None:
-    data = pd.read_csv(uploaded_file)
+# # If file is uploaded, read and display bar charts
+# if uploaded_file is not None:
+#     data = pd.read_csv(uploaded_file)
     
-    # Sidebar Chart 1
-    if data.shape[1] >= 2:
-        st.sidebar.subheader('RPC%')
-        fig, ax = plt.subplots()
-        ax.bar(data.iloc[:, 0], data.iloc[:, 1])
-        ax.set_title('Promise% for last 6 months')
-        st.sidebar.pyplot(fig)
-    else:
-        st.sidebar.write("File must have at least two columns to create a bar chart.")
+#     # Sidebar Chart 1
+#     if data.shape[1] >= 2:
+#         st.sidebar.subheader('RPC%')
+#         fig, ax = plt.subplots()
+#         ax.bar(data.iloc[:, 0], data.iloc[:, 1])
+#         ax.set_title('RPC% for last 6 months')
+#         st.sidebar.pyplot(fig)
+#     else:
+#         st.sidebar.write("File must have at least two columns to create a bar chart.")
     
-    # Sidebar Chart 2
-    if data.shape[1] >= 3:
-        st.sidebar.subheader('Promise%')
-        fig, ax = plt.subplots()
-        ax.bar(data.iloc[:, 0], data.iloc[:, 2])
-        ax.set_title('Promise% for last 6 months')
-        st.sidebar.pyplot(fig)
-    else:
-        st.sidebar.write("File must have at least three columns to create the second bar chart.")
+#     # Sidebar Chart 2
+#     if data.shape[1] >= 3:
+#         st.sidebar.subheader('Promise%')
+#         fig, ax = plt.subplots()
+#         ax.bar(data.iloc[:, 0], data.iloc[:, 2])
+#         ax.set_title('Promise% for last 6 months')
+#         st.sidebar.pyplot(fig)
+#     else:
+#         st.sidebar.write("File must have at least three columns to create the second bar chart.")
     
-    # Sidebar Chart 3
-    if data.shape[1] >= 4:
-        st.sidebar.subheader('Kept%')
-        fig, ax = plt.subplots()
-        ax.bar(data.iloc[:, 0], data.iloc[:, 3])
-        ax.set_title('Kept% for last 6 months')
-        st.sidebar.pyplot(fig)
-    else:
-        st.sidebar.write("File must have at least three columns to create the second bar chart.")
+#     # Sidebar Chart 3
+#     if data.shape[1] >= 4:
+#         st.sidebar.subheader('Kept%')
+#         fig, ax = plt.subplots()
+#         ax.bar(data.iloc[:, 0], data.iloc[:, 3])
+#         ax.set_title('Kept% for last 6 months')
+#         st.sidebar.pyplot(fig)
+#     else:
+#         st.sidebar.write("File must have at least three columns to create the second bar chart.")
 
-else:
-    st.sidebar.write("")
+# else:
+#     st.sidebar.write("")
 
-
+##################
 # Main Body
-# st.title('Main Body Charts')
 st.markdown("<h1 style='text-align: center; color: black;'>LEASE DIMENSION - GEN AI App</h1>", unsafe_allow_html=True)
 
-# Upload CSV data for Main Body
-uploaded_file_body = st.file_uploader("Upload the reasons data", type="csv")
+# EDA Charts
+st.subheader("Main KPI's")
+EDA_data = pd.read_csv("data1.csv")
+col1, col2, col3 = st.columns(3)
 
-# If files are uploaded, read and display charts
-if uploaded_file_body is not None:
-    data_body = pd.read_csv(uploaded_file_body)
-
-    # 1st Row: 3 Pie Charts
-    st.subheader('INTERACTION ANALYTICS SUMMARY')
-    col1, col2, col3 = st.columns(3)
-
-    with col1:
+# Sidebar Chart 1
+with col1:
+    if EDA_data.shape[1] >= 2:
+        st.sidebar.subheader('RPC%')
         fig, ax = plt.subplots()
-        data_body.iloc[:, 1].value_counts().plot(kind='pie', ax=ax, autopct='%1.1f%%')
-        ax.set_title('Failed Transcription')
+        ax.bar(EDA_data.iloc[:, 0], EDA_data.iloc[:, 1])
+        ax.set_title('RPC% for last 6 months')
         st.pyplot(fig)
+    else:
+        st.write("File must have at least two columns to create a bar chart.")
 
-    with col2:
+# Sidebar Chart 2
+with col2:
+    if EDA_data.shape[1] >= 3:
+        st.sidebar.subheader('Promise%')
         fig, ax = plt.subplots()
-        data_body.iloc[:, 2].value_counts().plot(kind='pie', ax=ax)
-        ax.set_title('Reasons for Delay')
+        ax.bar(EDA_data.iloc[:, 0], EDA_data.iloc[:, 2])
+        ax.set_title('Promise% for last 6 months')
         st.pyplot(fig)
+    else:
+        st.write("File must have at least three columns to create the second bar chart.")
 
-    with col3:
+# Sidebar Chart 3
+with col3:
+    if EDA_data.shape[1] >= 4:
+        st.sidebar.subheader('Kept%')
         fig, ax = plt.subplots()
-        data_body.iloc[:, 3].value_counts().plot(kind='pie', ax=ax)
-        ax.set_title('Key Concerns')
+        ax.bar(EDA_data.iloc[:, 0], EDA_data.iloc[:, 3])
+        ax.set_title('Kept% for last 6 months')
         st.pyplot(fig)
-    
-    # Set up OpenAI API Key (Do this securely in your production environment)
-    openai.api_key = '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'
-    app()
+    else:
+        st.write("File must have at least three columns to create the second bar chart.")
 
- 
 
-    # 3rd Row: Additional Charts...
-    # (Add additional charts code here...)
 
-else:
-    st.sidebar.write("")
-    st.write("")
+#############
+st.write("")
+st.write("")
 
-# Upload CSV data for Main Body
-csv_path = "D:\LD\data2.csv"
-Gen_AI_IP_data = pd.read_csv(csv_path)
+st.subheader("GEN AI Engine")
+Gen_AI_IP_data = pd.read_csv("data2.csv")
 
-if st.checkbox('Run GEN AI Engine and show sample trascribed data'):
+if st.checkbox('Run GEN AI Engine and show sample transcribed data'):
+       st.image('work_flow.png', width = 5, caption='', use_column_width=True)
+       st.write("Gen AI engine ran successfully to process 5000 transcribed file...")
        st.dataframe(Gen_AI_IP_data.sample(2))
 
+#############
+# Search for customer to generate summary
+st.write("")
+st.write("")
+
+st.subheader("Customer summary data")
+
+customer_AI_IP_data = pd.read_csv("cust_data.csv")
+ 
+if st.checkbox('Run GEN AI Engine and show sample customer data'):
+       st.dataframe(customer_AI_IP_data.sample(2))
+
+st.subheader("Search by Customer ID")
+search_cust_id = st.text_input("Enter ID to search:")
+if st.button('Search'):
+    filtered_cust_data = customer_AI_IP_data[customer_AI_IP_data['cust_id'] == search_cust_id]
+    st.dataframe(filtered_cust_data)
+else:
+    st.write("Please enter an ID and click Search.")
 
 
+# # Search for agent to generate summary
+# agent_path = "D:\LD\agent_data.csv"
+# agent_AI_IP_data = pd.read_csv(agent_path)
+
+# if st.checkbox('Run GEN AI Engine and show sample agent data'):
+#     st.dataframe(agent_AI_IP_data.sample(2))
+
+# st.subheader("Search by Agent ID")
+# search_agent_id = st.text_input("Enter ID to search:")
+# if st.button('Search'):
+#     filtered_agent_data = agent_AI_IP_data[agent_AI_IP_data['agent_id'] == search_agent_id]
+#     st.dataframe(filtered_agent_data)
+# else:
+#     st.write("Please enter an ID and click Search.")
 
 # #uploaded_file_body = pd.read_csv("D:\LD\data2.csv")
 
@@ -148,4 +186,3 @@ if st.checkbox('Run GEN AI Engine and show sample trascribed data'):
 #     # ... (rest of your main body code, like pie charts)
 # else:
 #     st.write("Please upload a CSV file.")
-
